@@ -1,31 +1,45 @@
 package com.aarav.shesaswiftieee.Repository
 
 import android.util.Log
+import com.aarav.shesaswiftieee.data.DataOrException
 import com.aarav.shesaswiftieee.data.SWIFT
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.FirebaseFirestoreException
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.tasks.await
+import kotlinx.coroutines.withContext
 
 class FireRepository {
     val db = FirebaseFirestore.getInstance()
 
-    suspend fun getAllSongsFromDataBase(collection:String):MutableList<SWIFT>{
+    /*
+    This function will only return the list of SWIFT data type which will be converted to
+    DataOrException for the further use in the SongViewModel
+    */
+    suspend fun getAllSongsFromDataBase(collection: String): DataOrException<List<SWIFT>, Boolean, Exception> {
+
+
         val collectionRef = db.collection(collection)
-        val song = mutableListOf<SWIFT>()
-        collectionRef.get()
-            .addOnSuccessListener { documents ->
-                for (document in documents) {
-                    val title = document.getString("title")
-                    val mediaID= document.getString("mediaID")
+        val dataOrException = DataOrException<List<SWIFT>, Boolean, Exception>()
 
-                    song.add(SWIFT(title,mediaID))
+        withContext(Dispatchers.IO) {
+            try {
+                dataOrException.loading = true
+                dataOrException.data =
+                    collectionRef.get().await().documents.map { documentSnapshot ->
+                        documentSnapshot.toObject(SWIFT::class.java)!!
+                    }
+                if (!dataOrException.data.isNullOrEmpty()) dataOrException.loading = false
 
-                    Log.d("SOOCK", "$title is id $mediaID." )
 
-                }
+            } catch (
+                exception: FirebaseFirestoreException
+            ) {
+                dataOrException.e = exception
+
             }
-            .addOnFailureListener { exception ->
-                Log.e("SOOCK", "FIRESTORE ERROR",exception )
-            }
+        }
+        return dataOrException
 
-        return song
     }
 }
