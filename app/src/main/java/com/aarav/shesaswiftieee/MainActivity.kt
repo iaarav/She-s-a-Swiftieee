@@ -1,5 +1,8 @@
 package com.aarav.shesaswiftieee
 
+import android.annotation.SuppressLint
+import android.content.Intent
+import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import androidx.activity.ComponentActivity
@@ -18,65 +21,70 @@ import androidx.compose.material3.Card
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
-import com.aarav.shesaswiftieee.ViewModel.SongViewModel
+import coil.compose.AsyncImage
+import com.aarav.shesaswiftieee.ui.ViewModel.SongViewModel
 import com.aarav.shesaswiftieee.data.SWIFT
+import com.aarav.shesaswiftieee.navigation.AppNavigation
+import com.aarav.shesaswiftieee.player.service.PlaybackService
+import com.aarav.shesaswiftieee.ui.ViewModel.AudioViewModel
+import com.aarav.shesaswiftieee.ui.ViewModel.UIEvents
+import com.aarav.shesaswiftieee.ui.screens.HomeScreen
 import com.aarav.shesaswiftieee.ui.theme.ShesASwiftieeeTheme
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.MainScope
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
+
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
+
+    val songViewModel: SongViewModel by viewModels()
+    private val audioViewModel: AudioViewModel by viewModels()
+    private var isServiceRunning = false
+
+    @SuppressLint("CoroutineCreationDuringComposition")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
             ShesASwiftieeeTheme {
-                val viewModel: SongViewModel by viewModels()
-                display(viewModel)
+                AppNavigation(
+                    songViewModel = songViewModel,
+                    currentPlayingAudio = audioViewModel.currentSelectedAudio,
+                    isAudioPlaying = audioViewModel.isPlaying,
+                    onStart = {
+                        audioViewModel.onUiEvents(UIEvents.PlayPause)
+                    },
+                    onItemClick = {
+                        audioViewModel.onUiEvents(UIEvents.SelectedAudioChange(it))
+                        startService()
+                    },
+                    onNext = {
+                        audioViewModel.onUiEvents(UIEvents.SeekToNext)
+                    },
+                    onPrevious = {
+                        audioViewModel.onUiEvents(UIEvents.SeekToPrevious)
+                    },
+                    progress = audioViewModel.progress,
+                    onProgress = {
+                        audioViewModel.onUiEvents(UIEvents.SeekTo(it))
+                    }
+                )
             }
         }
     }
 
-    @Composable
-    private fun display(viewModel: SongViewModel) {
-        val daata = viewModel.songData.value
-        val songlisst = mutableListOf<SWIFT>()
-        if (daata.loading == true) {
-            CircularProgressIndicator()
-            Log.d("SOOCK", "onCreate: LOADING LOADING LOADIND BAKA")
-        } else {
-            // Data has loaded, log it
-            daata.data?.forEach { obj ->
-                Log.d(
-                    "SOOCK",
-                    "${obj.title} is mediaId ${obj.mediaID} of the album ${obj.album} which is sung by the famous one and only: ${obj.singer}"
-                )
-                songlisst.add(obj)
-            }
-            LazyVerticalGrid(columns = GridCells.Fixed(2)) {
-                items(songlisst) { song ->
-                    SongItem(song)
-                }
-            }
-        }
-    }
-}
-@Composable
-fun SongItem(song: SWIFT) {
-    // Composable to display a single song item
-    Card(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(8.dp),
-    ) {
-        Column(
-            modifier = Modifier.padding(16.dp)
-        ) {
-            Text(text = "${song.mediaID}")
-            Text(text = "${song.title}")
-            Text(text = "${song.album}")
-            Text(text = "${song.singer}")
+    private fun startService() {
+        if (!isServiceRunning) {
+            val intent = Intent(this, PlaybackService::class.java)
+            startForegroundService(intent)
+            isServiceRunning = true
         }
     }
 }

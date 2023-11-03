@@ -1,4 +1,4 @@
-package com.aarav.shesaswiftieee.ViewModel
+package com.aarav.shesaswiftieee.ui.ViewModel
 
 import android.util.Log
 import androidx.compose.runtime.MutableState
