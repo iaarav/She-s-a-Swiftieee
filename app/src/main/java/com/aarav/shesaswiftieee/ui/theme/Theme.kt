@@ -15,7 +15,7 @@ import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalView
 import androidx.core.view.WindowCompat
-import com.aarav.shesaswiftieee.components.Constants.MainColour
+import com.aarav.shesaswiftieee.ui.screens.homeScreen.components.Constants.MainColour
 
 private val DarkColorScheme = darkColorScheme(
     primary = Purple80,

@@ -12,8 +12,8 @@ android {
 
     defaultConfig {
         applicationId = "com.aarav.shesaswiftieee"
-        minSdk = 26
-        targetSdk = 33
+        minSdk = 28
+        targetSdk = 34
         versionCode = 1
         versionName = "1.0"
 
@@ -54,15 +54,16 @@ android {
 
 dependencies {
 
-    implementation("androidx.core:core-ktx:1.1.0")
+    implementation("androidx.core:core-ktx:1.12.0")
     implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.6.2")
-    implementation("androidx.activity:activity-compose:1.7.2")
+    implementation("androidx.activity:activity-compose:1.8.2")
+    implementation ("androidx.compose.material:material-icons-extended: 1.8.2")
     implementation(platform("androidx.compose:compose-bom:2023.03.00"))
     implementation("androidx.compose.ui:ui")
     implementation("androidx.compose.ui:ui-graphics")
     implementation("androidx.compose.ui:ui-tooling-preview")
     implementation("androidx.compose.material3:material3")
-    implementation("com.google.android.engage:engage-core:1.3.0")
+    implementation("com.google.android.engage:engage-core:1.3.1")
     testImplementation("junit:junit:4.13.2")
     androidTestImplementation("androidx.test.ext:junit:1.1.5")
     androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
@@ -93,22 +94,19 @@ dependencies {
     implementation("io.coil-kt:coil-compose:2.4.0")
 
     //media3
-    implementation("androidx.media3:media3-session:1.1.1")
-    implementation("androidx.media3:media3-datasource-okhttp:1.1.1")
-    implementation("androidx.media3:media3-exoplayer:1.1.1")
-    implementation("androidx.media3:media3-ui:1.1.1")
-    implementation("androidx.media3:media3-common:1.1.1")
+    implementation("androidx.media3:media3-session:1.2.0")
+    implementation("androidx.media3:media3-datasource-okhttp:1.2.0")
+    implementation("androidx.media3:media3-exoplayer:1.2.0")
+    implementation("androidx.media3:media3-ui:1.2.0")
+    implementation("androidx.media3:media3-common:1.2.0")
     implementation("androidx.legacy:legacy-support-v4:1.0.0") // Needed MediaSessionCompat.Token
 
     //FireBase
     implementation(platform("com.google.firebase:firebase-bom:32.2.2"))
     implementation("com.google.firebase:firebase-firestore-ktx")
 
-    // Glide
-    implementation("com.github.bumptech.glide:glide:4.15.1")
-    implementation("com.google.accompanist:accompanist-permissions:0.30.0")
 
     //Navigation
-    implementation("androidx.navigation:navigation-compose:2.7.3")
+    implementation("androidx.navigation:navigation-compose:2.7.6")
 
 }
