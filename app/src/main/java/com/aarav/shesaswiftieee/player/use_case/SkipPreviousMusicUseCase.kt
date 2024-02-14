@@ -4,7 +4,7 @@ import com.aarav.shesaswiftieee.player.controller.PlaybackController
 import com.aarav.shesaswiftieee.player.service.MusicPlaybackController
 import javax.inject.Inject
 
-class SkipPreviousMusicUseCase(val playbackController: MusicPlaybackController) {
+class SkipPreviousMusicUseCase @Inject constructor(private val playbackController: MusicPlaybackController) {
     operator fun invoke() {
             playbackController.skipPrevious()
         }

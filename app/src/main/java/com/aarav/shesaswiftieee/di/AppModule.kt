@@ -1,6 +1,6 @@
 package com.aarav.shesaswiftieee.di
 
-import android.content.Context
+import android.app.Application
 import com.aarav.shesaswiftieee.player.service.MusicPlaybackController
 import com.aarav.shesaswiftieee.repository.FireRepository
 import com.aarav.shesaswiftieee.player.use_case.AddMediaItemsUseCase
@@ -18,7 +18,6 @@ import com.aarav.shesaswiftieee.player.use_case.SkipPreviousMusicUseCase
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
-import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import javax.inject.Singleton
 
@@ -31,57 +30,69 @@ object AppModule {
 
     @Provides
     @Singleton
-    fun AddMediaItems(@ApplicationContext context: Context): AddMediaItemsUseCase = AddMediaItemsUseCase(MusicPlaybackController(context))
+    fun AddMediaItems(playbackController: MusicPlaybackController): AddMediaItemsUseCase =
+        AddMediaItemsUseCase(playbackController)
 
     @Provides
     @Singleton
-    fun DestroyMediaController(@ApplicationContext context: Context): DestroyMediaControllerUseCase =
-        DestroyMediaControllerUseCase(MusicPlaybackController(context))
+    fun DestroyMediaController(playbackController: MusicPlaybackController): DestroyMediaControllerUseCase =
+        DestroyMediaControllerUseCase(playbackController)
 
     @Provides
     @Singleton
-    fun GetCurrentMusicPosition(@ApplicationContext context: Context): GetCurrentMusicPositionUseCase =
-        GetCurrentMusicPositionUseCase(MusicPlaybackController(context))
+    fun GetCurrentMusicPosition(playbackController: MusicPlaybackController): GetCurrentMusicPositionUseCase =
+        GetCurrentMusicPositionUseCase(playbackController)
 
 
     @Provides
     @Singleton
-    fun PauseMusic(@ApplicationContext context: Context): PauseMusicUseCase = PauseMusicUseCase(MusicPlaybackController(context))
+    fun PauseMusic(playbackController: MusicPlaybackController): PauseMusicUseCase =
+        PauseMusicUseCase(playbackController)
 
     @Provides
     @Singleton
-    fun PlayMusic(@ApplicationContext context: Context): PlayMusicUseCase = PlayMusicUseCase(MusicPlaybackController(context))
+    fun PlayMusic(playbackController: MusicPlaybackController): PlayMusicUseCase =
+        PlayMusicUseCase(playbackController)
 
     @Provides
     @Singleton
-    fun ResumeMusic(@ApplicationContext context: Context): ResumeMusicUseCase = ResumeMusicUseCase(MusicPlaybackController(context))
+    fun ResumeMusic(playbackController: MusicPlaybackController): ResumeMusicUseCase =
+        ResumeMusicUseCase(playbackController)
 
     @Provides
     @Singleton
-    fun SeekMusicPosition(@ApplicationContext context: Context): SeekMusicPositionUseCase = SeekMusicPositionUseCase(MusicPlaybackController(context))
+    fun SeekMusicPosition(playbackController: MusicPlaybackController): SeekMusicPositionUseCase =
+        SeekMusicPositionUseCase(playbackController)
 
     @Provides
     @Singleton
-    fun SetMediaControllerCallback(@ApplicationContext context: Context): SetMediaControllerCallbackUseCase =
-        SetMediaControllerCallbackUseCase(MusicPlaybackController(context))
+    fun SetMediaControllerCallback(playbackController: MusicPlaybackController): SetMediaControllerCallbackUseCase =
+        SetMediaControllerCallbackUseCase(playbackController)
 
     @Provides
     @Singleton
-    fun SetMusicShuffleEnabled(@ApplicationContext context: Context): SetMusicShuffleEnabledUseCase =
-        SetMusicShuffleEnabledUseCase(MusicPlaybackController(context))
+    fun SetMusicShuffleEnabled(playbackController: MusicPlaybackController): SetMusicShuffleEnabledUseCase =
+        SetMusicShuffleEnabledUseCase(playbackController)
 
     @Provides
     @Singleton
-    fun SetPlayerRepeatOneEnabled(@ApplicationContext context: Context): SetPlayerRepeatOneEnabledUseCase =
-        SetPlayerRepeatOneEnabledUseCase(MusicPlaybackController(context))
+    fun SetPlayerRepeatOneEnabled(playbackController: MusicPlaybackController): SetPlayerRepeatOneEnabledUseCase =
+        SetPlayerRepeatOneEnabledUseCase(playbackController)
 
     @Provides
     @Singleton
-    fun SkipNextMusic(@ApplicationContext context: Context): SkipNextMusicUseCase = SkipNextMusicUseCase(MusicPlaybackController(context))
+    fun SkipNextMusic(playbackController: MusicPlaybackController): SkipNextMusicUseCase =
+        SkipNextMusicUseCase(playbackController)
 
     @Provides
     @Singleton
-    fun SkipPreviousMusic(@ApplicationContext context: Context): SkipPreviousMusicUseCase = SkipPreviousMusicUseCase(MusicPlaybackController(context))
+    fun SkipPreviousMusic(playbackController: MusicPlaybackController): SkipPreviousMusicUseCase =
+        SkipPreviousMusicUseCase(playbackController)
 
 
+    @Provides
+    @Singleton
+    fun provideMusicPlaybackController(application: Application): MusicPlaybackController {
+        return MusicPlaybackController(application.applicationContext)
+    }
 }
