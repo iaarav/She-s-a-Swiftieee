@@ -4,7 +4,7 @@ import com.aarav.shesaswiftieee.player.controller.PlaybackController
 import com.aarav.shesaswiftieee.player.service.MusicPlaybackController
 import javax.inject.Inject
 
-class GetCurrentMusicPositionUseCase @Inject constructor(private val playbackController: MusicPlaybackController) {
+class GetCurrentMusicPositionUseCase (private val playbackController: MusicPlaybackController) {
 
     operator fun invoke() {
         playbackController.getCurrentPosition()

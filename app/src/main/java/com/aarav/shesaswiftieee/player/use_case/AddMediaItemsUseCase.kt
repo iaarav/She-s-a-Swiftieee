@@ -5,10 +5,11 @@ import com.aarav.shesaswiftieee.player.controller.PlaybackController
 import com.aarav.shesaswiftieee.player.service.MusicPlaybackController
 import javax.inject.Inject
 
-class AddMediaItemsUseCase @Inject constructor(private val playbackController: MusicPlaybackController){
+class AddMediaItemsUseCase(
+    private val playbackController: MusicPlaybackController
+) {
 
     operator fun invoke(musics: List<SWIFT>) {
-            playbackController.addMediaItems(musics)
-
+        playbackController.addMediaItems(musics)
     }
 }

@@ -4,7 +4,7 @@ import com.aarav.shesaswiftieee.player.controller.PlaybackController
 import com.aarav.shesaswiftieee.player.service.MusicPlaybackController
 import javax.inject.Inject
 
-class SetPlayerRepeatOneEnabledUseCase @Inject constructor(private val playbackController: MusicPlaybackController) {
+class SetPlayerRepeatOneEnabledUseCase (private val playbackController: MusicPlaybackController) {
     operator fun invoke(isEnabled: Boolean) {
             playbackController.setRepeatOneEnabled(isEnabled)
     }
