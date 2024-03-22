@@ -16,7 +16,7 @@ import com.google.common.util.concurrent.ListenableFuture
 import com.google.common.util.concurrent.MoreExecutors
 import javax.inject.Inject
 
-class MusicPlaybackController @Inject constructor(context: Context) : PlaybackController {
+class MusicPlaybackController (context: Context) : PlaybackController {
 
 
     private var mediaControllerFuture: ListenableFuture<MediaController>

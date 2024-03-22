@@ -5,7 +5,6 @@ import androidx.compose.animation.expandVertically
 import androidx.compose.animation.shrinkVertically
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
-import androidx.navigation.NavHostController
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -17,15 +16,16 @@ import com.aarav.shesaswiftieee.ui.screens.homeScreen.HomeScreen
 import com.aarav.shesaswiftieee.ui.screens.songDetailScreen.SongDetailScreen
 import com.aarav.shesaswiftieee.ui.viewModel.musicPlayer.MusicViewModel
 import com.aarav.shesaswiftieee.ui.viewModel.shared.SharedViewModel
-import dagger.hilt.android.lifecycle.HiltViewModel
+import org.koin.androidx.compose.koinViewModel
 
 @Composable
-fun AppNavigation(
-    songViewModel: SongViewModel,
-    sharedViewModel: SharedViewModel,
-    musicViewModel: MusicViewModel
+    fun AppNavigation(
+    sharedViewModel: SharedViewModel
 ) {
     val navController = rememberNavController()
+    val songViewModel:SongViewModel = koinViewModel()
+    val musicViewModel:MusicViewModel = koinViewModel()
+
     NavHost(
         navController = navController, startDestination = AppScreens.HomeScreen.name
     ) {

@@ -15,7 +15,7 @@ class FireRepository {
     This function will only return the list of SWIFT data type which will be converted to
     DataOrException for the further use in the SongViewModel
     */
-    suspend fun getAllSongsFromDataBase(collection: String): DataOrException<List<SWIFT>, Boolean, Exception> {
+    suspend fun getAllSongsFromDataBase(collection: String= "SWIFT"): DataOrException<List<SWIFT>, Boolean, Exception> {
 
 
         val collectionRef = db.collection(collection)

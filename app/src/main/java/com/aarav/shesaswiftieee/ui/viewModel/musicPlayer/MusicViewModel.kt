@@ -8,11 +8,10 @@ import com.aarav.shesaswiftieee.player.use_case.SetMusicShuffleEnabledUseCase
 import com.aarav.shesaswiftieee.player.use_case.SetPlayerRepeatOneEnabledUseCase
 import com.aarav.shesaswiftieee.player.use_case.SkipNextMusicUseCase
 import com.aarav.shesaswiftieee.player.use_case.SkipPreviousMusicUseCase
-import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
-@HiltViewModel
-class MusicViewModel @Inject constructor(
+
+class MusicViewModel(
     private val resumeMusicUseCase: ResumeMusicUseCase,
     private val pauseMusicUseCase: PauseMusicUseCase,
     private val seekMusicPositionUseCase: SeekMusicPositionUseCase,
@@ -21,7 +20,7 @@ class MusicViewModel @Inject constructor(
     private val setMusicShuffleEnabledUseCase: SetMusicShuffleEnabledUseCase,
     private val setPlayerRepeatOneEnabledUseCase: SetPlayerRepeatOneEnabledUseCase
 ) : ViewModel() {
-    fun onEvent (event: MusicPlayerEvent){
+    fun onEvent(event: MusicPlayerEvent) {
         when (event) {
             MusicPlayerEvent.ResumeMusic -> resumeMusic()
 
@@ -39,7 +38,7 @@ class MusicViewModel @Inject constructor(
         }
     }
 
-     fun resumeMusic() {
+    fun resumeMusic() {
         resumeMusicUseCase()
     }
 

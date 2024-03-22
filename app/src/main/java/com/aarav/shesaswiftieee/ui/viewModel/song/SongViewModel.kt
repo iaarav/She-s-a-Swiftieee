@@ -13,14 +13,11 @@ import com.aarav.shesaswiftieee.data.SWIFT
 import com.aarav.shesaswiftieee.player.use_case.AddMediaItemsUseCase
 import com.aarav.shesaswiftieee.player.use_case.PauseMusicUseCase
 import com.aarav.shesaswiftieee.player.use_case.PlayMusicUseCase
-import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
-@HiltViewModel
-class SongViewModel @Inject constructor(
+class SongViewModel (
     private val fireRepository: FireRepository,
     private val addMediaItemsUseCase: AddMediaItemsUseCase,
     private val playMusicUseCase: PlayMusicUseCase,

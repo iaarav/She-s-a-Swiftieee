@@ -1,12 +1,19 @@
 package com.aarav.shesaswiftieee
 
 import android.app.Application
-import com.aarav.shesaswiftieee.player.service.MusicPlaybackController
-import dagger.hilt.android.HiltAndroidApp
-import javax.inject.Inject
+import com.aarav.shesaswiftieee.di.appModule
+import org.koin.android.ext.koin.androidContext
+import org.koin.android.ext.koin.androidLogger
+import org.koin.core.context.startKoin
 
-@HiltAndroidApp
 class MyApplication : Application(){
-    @Inject
-    lateinit var playbackController: MusicPlaybackController
+
+    override fun onCreate() {
+        super.onCreate()
+
+        startKoin {
+            androidContext(this@MyApplication)
+            modules(appModule)
+        }
+    }
 }

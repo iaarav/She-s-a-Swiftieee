@@ -9,14 +9,13 @@ import com.aarav.shesaswiftieee.data.PlayerState
 import com.aarav.shesaswiftieee.player.use_case.DestroyMediaControllerUseCase
 import com.aarav.shesaswiftieee.player.use_case.GetCurrentMusicPositionUseCase
 import com.aarav.shesaswiftieee.player.use_case.SetMediaControllerCallbackUseCase
-import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 import kotlin.time.Duration.Companion.seconds
 
-@HiltViewModel
-class SharedViewModel @Inject constructor(
+
+class SharedViewModel (
     private val setMediaControllerCallbackUseCase: SetMediaControllerCallbackUseCase,
     private val getCurrentMusicPositionUseCase: GetCurrentMusicPositionUseCase,
     private val destroyMediaControllerUseCase: DestroyMediaControllerUseCase
@@ -54,6 +53,6 @@ class SharedViewModel @Inject constructor(
     }
 
     fun destroyMediaController(){
-        destroyMediaController()
+        destroyMediaControllerUseCase()
     }
 }

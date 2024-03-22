@@ -17,15 +17,13 @@ import com.aarav.shesaswiftieee.ui.viewModel.song.SongViewModel
 import com.aarav.shesaswiftieee.ui.theme.ShesASwiftieeeTheme
 import com.aarav.shesaswiftieee.ui.viewModel.musicPlayer.MusicViewModel
 import com.aarav.shesaswiftieee.ui.viewModel.shared.SharedViewModel
-import dagger.hilt.android.AndroidEntryPoint
+import org.koin.androidx.compose.koinViewModel
 
 
-@AndroidEntryPoint
 class MainActivity : ComponentActivity() {
 
-    val songViewModel: SongViewModel by viewModels()
+
     val sharedViewModel: SharedViewModel by viewModels()
-    val musicViewModel: MusicViewModel by viewModels()
     @SuppressLint("CoroutineCreationDuringComposition")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -34,14 +32,8 @@ class MainActivity : ComponentActivity() {
                 Surface(
                     modifier = Modifier.fillMaxSize(), color = MaterialTheme.colorScheme.background
                 ) {
-                    val songViewModel: SongViewModel by viewModels()
-                    val sharedViewModel: SharedViewModel by viewModels()
-                    val musicViewModel: MusicViewModel by viewModels()
-
                     AppNavigation(
-                        songViewModel = songViewModel,
-                        sharedViewModel = sharedViewModel,
-                        musicViewModel = musicViewModel
+                        sharedViewModel = sharedViewModel
                     )
                 }
             }
