@@ -4,7 +4,7 @@ import com.aarav.shesaswiftieee.player.controller.PlaybackController
 import com.aarav.shesaswiftieee.player.service.MusicPlaybackController
 import javax.inject.Inject
 
-class PlayMusicUseCase (private val playbackController: MusicPlaybackController) {
+class PlayMusicUseCase (private val playbackController: PlaybackController) {
 
 
     operator fun invoke(mediaItemsIndex: Int) {

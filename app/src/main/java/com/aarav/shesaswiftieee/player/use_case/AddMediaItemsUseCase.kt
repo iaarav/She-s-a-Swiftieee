@@ -6,7 +6,7 @@ import com.aarav.shesaswiftieee.player.service.MusicPlaybackController
 import javax.inject.Inject
 
 class AddMediaItemsUseCase(
-    private val playbackController: MusicPlaybackController
+    private val playbackController: PlaybackController
 ) {
 
     operator fun invoke(musics: List<SWIFT>) {

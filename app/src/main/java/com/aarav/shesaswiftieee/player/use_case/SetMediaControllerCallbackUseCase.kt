@@ -6,7 +6,7 @@ import com.aarav.shesaswiftieee.player.controller.PlaybackController
 import com.aarav.shesaswiftieee.player.service.MusicPlaybackController
 import javax.inject.Inject
 
-class SetMediaControllerCallbackUseCase (private val playbackController: MusicPlaybackController) {
+class SetMediaControllerCallbackUseCase (private val playbackController: PlaybackController) {
 
     operator fun invoke(
         callback: (

@@ -41,7 +41,7 @@ class MusicPlaybackService : MediaSessionService() {
     }
 
 
-    override fun onGetSession(controllerInfo: MediaSession.ControllerInfo): MediaSession? = null
+    override fun onGetSession(controllerInfo: MediaSession.ControllerInfo): MediaSession? = mediaSession
 
     private inner class MediaSessionCallback : MediaSession.Callback {
         override fun onAddMediaItems(

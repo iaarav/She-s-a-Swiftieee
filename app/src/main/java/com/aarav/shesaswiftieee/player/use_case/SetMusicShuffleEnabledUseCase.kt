@@ -4,7 +4,7 @@ import com.aarav.shesaswiftieee.player.controller.PlaybackController
 import com.aarav.shesaswiftieee.player.service.MusicPlaybackController
 import javax.inject.Inject
 
-class SetMusicShuffleEnabledUseCase (private val playbackController: MusicPlaybackController) {
+class SetMusicShuffleEnabledUseCase (private val playbackController: PlaybackController) {
     operator fun invoke(isEnabled: Boolean) {
             playbackController.setShuffleModeEnabled(isEnabled)
     }
