@@ -11,16 +11,17 @@ import com.aarav.shesaswiftieee.repository.FireRepository
 import com.aarav.shesaswiftieee.data.DataOrException
 import com.aarav.shesaswiftieee.data.SWIFT
 import com.aarav.shesaswiftieee.player.use_case.AddMediaItemsUseCase
+import com.aarav.shesaswiftieee.player.use_case.ClearMediaItemsUseCase
 import com.aarav.shesaswiftieee.player.use_case.PauseMusicUseCase
 import com.aarav.shesaswiftieee.player.use_case.PlayMusicUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 @HiltViewModel
 class SongViewModel @Inject constructor(
+    private val clearMediaItemsUseCase: ClearMediaItemsUseCase,
     private val fireRepository: FireRepository,
     private val addMediaItemsUseCase: AddMediaItemsUseCase,
     private val playMusicUseCase: PlayMusicUseCase,
@@ -55,33 +56,34 @@ class SongViewModel @Inject constructor(
     }
 
     private fun getAllSongs() {
-            homeUiState = homeUiState.copy(loading = true)
-            viewModelScope.launch(Dispatchers.Main) {
-                try {
-                    songData.value.loading = true // Set loading to true before the request
-                    val result = fireRepository.getAllSongsFromDataBase("SWIFT")
-                    songData.value = result
-                    addMediaItemsUseCase(songData.value.data!!)
-                    homeUiState = homeUiState.copy(
-                        loading = false, musics = songData.value.data
-                    )
+        homeUiState = homeUiState.copy(loading = true)
+        viewModelScope.launch(Dispatchers.Main) {
+            try {
+                songData.value.loading = true // Set loading to true before the request
+                val result = fireRepository.getAllSongsFromDataBase("SWIFT")
+                result.data = result.data
+                songData.value = result
+                addMediaItemsUseCase(songData.value.data!!)
+                homeUiState = homeUiState.copy(
+                    loading = false, musics = songData.value.data!!
+                )
 
-                } catch (exception: Exception) {
-                    songData.value.e = exception
+            } catch (exception: Exception) {
+                songData.value.e = exception
 
-                    homeUiState = homeUiState.copy(
-                        loading = false, errorMessage = exception.toString()
-                    )
+                homeUiState = homeUiState.copy(
+                    loading = false, errorMessage = exception.toString()
+                )
 
-                    Log.e("SOOCK", "look mom the view model is faulty ", exception)
-                } finally {
-                    songData.value.loading = false // Set loading to false after the request
-                    homeUiState = homeUiState.copy(loading = false)
-                }
+                Log.e("SOOCK", "look mom the view model is faulty ", exception)
+            } finally {
+                songData.value.loading = false // Set loading to false after the request
+                homeUiState = homeUiState.copy(loading = false)
             }
+        }
     }
 
-    fun searchAlbum(albumName: String): MutableList<SWIFT> {
+    fun searchAlbum(albumName: String): List<SWIFT> {
 
         val song = mutableListOf<SWIFT>()
 
@@ -92,7 +94,8 @@ class SongViewModel @Inject constructor(
                 }
             }
         }
-        return song
+
+        return song.sortedBy { it.mediaID!!.toInt() }
     }
 
     private fun playMusic() {
@@ -109,6 +112,13 @@ class SongViewModel @Inject constructor(
 
     private fun pauseMusic() {
         pauseMusicUseCase()
+    }
+
+    fun addMediaItemsByAlbum(albumName: String) {
+        val data = searchAlbum(albumName)
+            clearMediaItemsUseCase()
+            addMediaItemsUseCase(data)
+        homeUiState.musics = data
     }
 
 }

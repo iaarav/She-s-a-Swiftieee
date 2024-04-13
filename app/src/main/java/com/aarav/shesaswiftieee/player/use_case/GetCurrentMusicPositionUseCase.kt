@@ -6,8 +6,8 @@ import javax.inject.Inject
 
 class GetCurrentMusicPositionUseCase @Inject constructor(private val playbackController: MusicPlaybackController) {
 
-    operator fun invoke() {
-        playbackController.getCurrentPosition()
+    operator fun invoke(): Long {
+        return playbackController.getCurrentPosition()
 
     }
 }

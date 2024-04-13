@@ -3,12 +3,14 @@ package com.aarav.shesaswiftieee.ui.screens.homeScreen
 import android.annotation.SuppressLint
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
@@ -21,6 +23,7 @@ import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
+import androidx.compose.material3.TopAppBarDefaults.topAppBarColors
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -59,6 +62,8 @@ fun HomeScreen(
     if (!songData.data.isNullOrEmpty()) {
         val sortedSongData = getSortedAlbum(songData.data!!).entries.toList()
 
+
+
         Scaffold(modifier = Modifier.fillMaxWidth(), topBar = {
             TopAppBar(
                 modifier = Modifier
@@ -66,15 +71,21 @@ fun HomeScreen(
                     .height(40.dp)
                     .fillMaxWidth(), title = {
                     Text("She's a Swiftieee")
-                }, colors = TopAppBarDefaults.smallTopAppBarColors(Color(MainColour))
+                }, colors = topAppBarColors(
+                    Color(MainColour)
+                )
             )
         }) { innerPadding ->
             Box {
-                Surface(modifier = Modifier.padding(top = 40.dp)) {
+                Surface(modifier = Modifier.padding(top = 20.dp)) {
                     Column {
-                        LazyVerticalGrid(columns = GridCells.Fixed(sortedSongData.size), modifier = Modifier.padding(innerPadding)) {
+                        LazyVerticalGrid(
+                            columns = GridCells.Fixed(2),
+                            modifier = Modifier.padding(innerPadding)
+                        ) {
                             items(sortedSongData) { (album, songs) ->
                                 AlbumView(album = album.toString(), songs) {
+                                    songViewModel.addMediaItemsByAlbum(album!!)
                                     navController.navigate(AppScreens.SongDetailScreen.name + "/$album")
                                 }
                             }
@@ -98,7 +109,19 @@ fun HomeScreen(
             }
         }
     } else if (songData.loading == true) {
-        CircularProgressIndicator()
+        Surface(
+            modifier = Modifier.fillMaxSize()
+        ) {
+            Box(
+                modifier = Modifier.fillMaxSize(),
+                contentAlignment = Alignment.Center
+            ) {
+                CircularProgressIndicator(
+                    modifier = Modifier.size(100.dp),
+                    strokeWidth = 5.dp, // Adjust thickness as needed
+                )
+            }
+        }
     }
 }
 
@@ -124,7 +147,7 @@ fun AlbumView(
                 AsyncImage(
                     model = songs[0].imageURL,
                     contentDescription = "$album image poster",
-                    contentScale = ContentScale.Crop
+                    contentScale = ContentScale.FillBounds
                 )
 
                 Box(

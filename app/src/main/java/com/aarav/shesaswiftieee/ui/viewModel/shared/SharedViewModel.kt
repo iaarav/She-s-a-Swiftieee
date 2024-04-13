@@ -54,6 +54,6 @@ class SharedViewModel @Inject constructor(
     }
 
     fun destroyMediaController(){
-        destroyMediaController()
+        destroyMediaControllerUseCase()
     }
 }

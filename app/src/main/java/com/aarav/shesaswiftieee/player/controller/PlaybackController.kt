@@ -20,4 +20,5 @@ interface PlaybackController {
     fun setRepeatOneEnabled(isEnabled:Boolean)
     fun getCurrentPosition():Long
     fun destroy()
+    fun clear()
 }

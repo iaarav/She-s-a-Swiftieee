@@ -4,6 +4,7 @@ import android.app.Application
 import com.aarav.shesaswiftieee.player.service.MusicPlaybackController
 import com.aarav.shesaswiftieee.repository.FireRepository
 import com.aarav.shesaswiftieee.player.use_case.AddMediaItemsUseCase
+import com.aarav.shesaswiftieee.player.use_case.ClearMediaItemsUseCase
 import com.aarav.shesaswiftieee.player.use_case.DestroyMediaControllerUseCase
 import com.aarav.shesaswiftieee.player.use_case.GetCurrentMusicPositionUseCase
 import com.aarav.shesaswiftieee.player.use_case.PauseMusicUseCase
@@ -32,6 +33,11 @@ object AppModule {
     @Singleton
     fun AddMediaItems(playbackController: MusicPlaybackController): AddMediaItemsUseCase =
         AddMediaItemsUseCase(playbackController)
+
+    @Provides
+    @Singleton
+    fun ClearMediaItems(playbackController: MusicPlaybackController): ClearMediaItemsUseCase =
+        ClearMediaItemsUseCase(playbackController)
 
     @Provides
     @Singleton

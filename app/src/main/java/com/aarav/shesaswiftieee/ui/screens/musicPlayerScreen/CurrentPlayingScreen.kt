@@ -27,6 +27,7 @@ import androidx.compose.material.icons.rounded.SkipPrevious
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.LocalMinimumInteractiveComponentEnforcement
 import androidx.compose.material3.LocalMinimumTouchTargetEnforcement
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Slider
@@ -104,7 +105,7 @@ fun CurrentPlayingScreen(
 
                     // Music Playback
                     Spacer(modifier = Modifier.height(30.dp))
-                    CompositionLocalProvider(LocalMinimumTouchTargetEnforcement provides false) {
+                    CompositionLocalProvider(LocalMinimumInteractiveComponentEnforcement provides false) {
                         Slider(
                             value = currentPosition.toFloat(),
                             valueRange = 0f..totalDuration.toFloat(),

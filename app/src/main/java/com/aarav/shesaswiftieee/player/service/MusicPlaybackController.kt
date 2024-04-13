@@ -124,10 +124,15 @@ class MusicPlaybackController @Inject constructor(context: Context) : PlaybackCo
         }
     }
 
+
     override fun getCurrentPosition(): Long = mediaController?.currentPosition ?: 0L
 
     override fun destroy() {
         MediaController.releaseFuture(mediaControllerFuture)
         mediaControllerCallback = null
+    }
+
+    override fun clear() {
+        mediaController?.clearMediaItems()
     }
 }

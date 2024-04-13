@@ -9,6 +9,5 @@ class AddMediaItemsUseCase @Inject constructor(private val playbackController: M
 
     operator fun invoke(musics: List<SWIFT>) {
             playbackController.addMediaItems(musics)
-
     }
 }
