@@ -47,6 +47,7 @@ fun AppNavigation(
         ) { backStackEntry ->
             SongDetailScreen(
                 albumName = backStackEntry.arguments?.getString("album"),
+                navController = navController,
                 songVM = songViewModel,
                 onEvent = songViewModel::onEvent,
                 homeUiState = songViewModel.homeUiState,

@@ -17,6 +17,7 @@ import com.aarav.shesaswiftieee.player.use_case.PlayMusicUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import okhttp3.internal.trimSubstring
 import javax.inject.Inject
 
 @HiltViewModel
@@ -35,6 +36,7 @@ class SongViewModel @Inject constructor(
     var homeUiState by mutableStateOf(HomeUiState())
         private set
 
+    private var searchData = mutableListOf<SWIFT>()
 
     fun onEvent(event: HomeEvent) {
         when (event) {
@@ -98,6 +100,24 @@ class SongViewModel @Inject constructor(
         return song.sortedBy { it.mediaID!!.toInt() }
     }
 
+    fun searchSongs(query: String): MutableList<SWIFT> {
+        searchData.clear()
+        return if (query.isNotEmpty()) {
+
+            songData.value.data!!.forEach {
+                val comparisonLength = minOf(it.title!!.length, query.length)
+                val queryCompare = it.title.trimSubstring(0, comparisonLength)
+
+                if (query.equals(queryCompare, ignoreCase = true)) {
+                    searchData.add(it)
+                }
+            }
+            searchData
+        } else{
+            mutableListOf()
+        }
+    }
+
     private fun playMusic() {
         homeUiState.apply {
             musics?.indexOf(selectedMusic)?.let {
@@ -116,8 +136,8 @@ class SongViewModel @Inject constructor(
 
     fun addMediaItemsByAlbum(albumName: String) {
         val data = searchAlbum(albumName)
-            clearMediaItemsUseCase()
-            addMediaItemsUseCase(data)
+        clearMediaItemsUseCase()
+        addMediaItemsUseCase(data)
         homeUiState.musics = data
     }
 
